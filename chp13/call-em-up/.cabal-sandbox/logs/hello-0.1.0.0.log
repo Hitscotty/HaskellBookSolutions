@@ -1,0 +1,37 @@
+Warning: hello-haskell.cabal: Unknown fields: default-langauage (line 53)
+Fields allowed in this section:
+exposed-modules, reexported-modules, required-signatures,
+exposed-signatures, exposed, buildable, build-tools, build-depends,
+cpp-options, cc-options, ld-options, pkgconfig-depends, frameworks,
+c-sources, js-sources, default-language, other-languages,
+default-extensions, other-extensions, extensions, extra-libraries,
+extra-ghci-libraries, extra-lib-dirs, includes, install-includes,
+include-dirs, hs-source-dirs, other-modules, ghc-prof-options,
+ghcjs-prof-options, ghc-shared-options, ghcjs-shared-options,
+ghc-options, ghcjs-options, jhc-options, hugs-options,
+nhc98-options
+Configuring hello-0.1.0.0...
+Warning: Packages using 'cabal-version: >= 1.10' must specify the
+'default-language' field for each component (e.g. Haskell98 or Haskell2010).
+If a component uses different languages in different modules then list the
+other ones in the 'other-languages' field.
+Building hello-0.1.0.0...
+Preprocessing library hello-0.1.0.0...
+In-place registering hello-0.1.0.0...
+Preprocessing executable 'hello-haskell' for hello-0.1.0.0...
+Running Haddock for hello-0.1.0.0...
+Preprocessing library hello-0.1.0.0...
+Haddock coverage:
+   0% (  0 /  2) in 'Hello'
+  Missing documentation for:
+    Module header
+    sayHello (src/Hello.hs:4)
+Documentation created: dist/dist-sandbox-8c2191a1/doc/html/hello/index.html
+Preprocessing executable 'hello-haskell' for hello-0.1.0.0...
+Creating package registration file:
+/var/folders/83/5t0pl2pj5ybgtc6zhhsm9twr0000gn/T/pkgConf-hello-0.1.01010275441457850878.0
+Installing library in
+/Users/Scotty/Documents/call-em-up/.cabal-sandbox/lib/x86_64-osx-ghc-7.10.3/hello-0.1.0.0-IJIUuynUbgsHAquBKsAsb5
+Installing executable(s) in
+/Users/Scotty/Documents/call-em-up/.cabal-sandbox/bin
+Registering hello-0.1.0.0...

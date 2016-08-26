@@ -1,0 +1,32 @@
+name:                WordNumberTest
+version:             0.1.0.0
+synopsis:            Simple project template from stack
+description:         Please see README.md
+homepage:            https://github.com/hitscotty/WordNumberTest#readme
+license:             BSD3
+license-file:        LICENSE
+author:              Jonathan Portorreal
+maintainer:          Jportorreal77@gmail.com
+copyright:           BSD3
+category:            Text
+build-type:          Simple
+cabal-version:       >=1.10
+
+
+library
+  exposed-modules:     WordNumber
+  ghc-options:         -Wall -fwarn-tabs
+  build-depends:       base >= 4.7 && <5
+                     , QuickCheck
+                     , hspec
+  hs-source-dirs:      /Users/Scotty/Documents/Repositories/HaskellBookSolutions/chp8/
+  default-language:    Haskell2010
+  
+executable WordNumberTest
+  hs-source-dirs:      src
+  main-is:             wordNumberTest.hs
+  default-language:    Haskell2010
+  build-depends:       base >= 4.7 && < 5
+                     , QuickCheck
+                     , hspec
+                     
