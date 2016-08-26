@@ -1,1 +1,1 @@
- # Haskell: From First Principles 
+## Haskell: From First Principles 
