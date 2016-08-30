@@ -1,8 +1,7 @@
 module Semi where
 
 import Test.QuickCheck (Arbitrary, arbitrary, quickCheck, elements)
-import Data.Semigroup (Semigroup, (<>))
-
+import Data.Semigroup (Semigroup, (<>), Sum(Sum, getSum))
 
 semigroupAssoc :: (Eq m, Semigroup m) => m -> m -> m -> Bool
 semigroupAssoc a b c = (a <> (b <> c)) == ((a <> b) <> c)
@@ -83,7 +82,6 @@ type FourAssoc = Four String String String String
               -> Four String String String String
               -> Four String String String String
               -> Bool
-
 -------------------------------------------------------------------------------------------
 newtype BoolConj = BoolConj Bool deriving (Eq, Show)
 
@@ -96,7 +94,73 @@ instance Arbitrary BoolConj where
     elements [(BoolConj a), (BoolConj a)]
     
 type ConjAssoc = BoolConj -> BoolConj -> BoolConj -> Bool
+-------------------------------------------------------------------------------------------
+newtype BoolDisj = BoolDisj Bool deriving (Eq, Show)
 
+instance Semigroup BoolDisj where
+  BoolDisj a <> BoolDisj b = BoolDisj (a || b)
+
+instance Arbitrary BoolDisj where
+  arbitrary = do
+    a <- arbitrary
+    elements [(BoolDisj a), (BoolDisj a)]
+
+type DisjAssoc = BoolDisj -> BoolDisj -> BoolDisj -> Bool
+-------------------------------------------------------------------------------------------
+data Or a b =
+    Fst a
+  | Snd b
+  deriving (Eq, Show)
+ 
+instance Semigroup (Or a b) where
+  Fst _ <> b = b
+  b <> _ = b
+ 
+instance (Arbitrary a, Arbitrary b) => Arbitrary (Or a b) where
+  arbitrary = do
+    a <- arbitrary
+    b <- arbitrary
+    elements [(Fst a),(Snd b)]
+
+type OrAssoc = Or String Ordering -> Or String Ordering -> Or String Ordering -> Bool
+-------------------------------------------------------------------------------------------
+newtype Combine a b = Combine { unCombine :: ( a -> b) }
+
+f = Combine $ \n -> Sum (n + 1)
+g = Combine $ \n -> Sum (n - 1)
+
+instance Semigroup b => Semigroup (Combine a b) where
+  a <> b = Combine (unCombine a <> unCombine b)
+-------------------------------------------------------------------------------------------
+newtype Comp a =
+  Comp {unComp :: (a -> a) }
+
+instance Semigroup a => Semigroup (Comp a) where
+   a <> b = Comp (unComp a <> unComp b)
+-------------------------------------------------------------------------------------------
+data Validation a b =
+  Failure a | Success b
+  deriving (Eq, Show)
+
+instance Semigroup a => Semigroup (Validation a b) where
+  (<>) = undefined
+-------------------------------------------------------------------------------------------
+newtype AccumulateRight a b =
+  AccumulateRight (Validation a b)
+  deriving (Eq, Show)
+
+instance Semigroup b =>
+  Semigroup (AccumulateRight a b) where
+  (<>) = undefined
+-------------------------------------------------------------------------------------------
+newtype AccumulateBoth a b =
+  AccumulateBoth (Validation a b)
+  deriving (Eq, Show)
+
+instance (Semigroup a, Semigroup b) =>
+  Semigroup (AccumulateBoth a b) where
+  (<>) = undefined
+  
 main :: IO ()
 main = do
   quickCheck (semigroupAssoc :: TrivialAssoc)
@@ -104,3 +168,5 @@ main = do
   quickCheck (semigroupAssoc :: TwoAssoc)
   quickCheck (semigroupAssoc :: ThreeAssoc)
   quickCheck (semigroupAssoc :: ConjAssoc)
+  quickCheck (semigroupAssoc :: DisjAssoc)
+  quickCheck (semigroupAssoc :: OrAssoc)
